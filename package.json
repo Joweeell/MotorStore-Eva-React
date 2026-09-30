@@ -13,12 +13,8 @@
     "bootstrap": "^5.3.8",
     "react": "^19.2.8",
     "react-bootstrap": "^2.10.10",
-<<<<<<< HEAD
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.4"
-=======
-    "react-dom": "^19.2.8"
->>>>>>> 714c69b301831dd472c44f359baacdc5ca112c00
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
