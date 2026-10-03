@@ -7,13 +7,13 @@ export default function Home() {
       <div id="carouselMotor" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <img src="/img/carrusel1.jpg" className="d-block w-100" alt="Carrera de motos" />
+            <img src="/m1.jpg" className="d-block w-100" alt="Carrera de motos" />
           </div>
           <div className="carousel-item">
-            <img src="/img/carrusel2.jpg" className="d-block w-100" alt="Motocicleta deportiva" />
+            <img src="/m2.webp" className="d-block w-100" alt="Motocicleta deportiva" />
           </div>
           <div className="carousel-item">
-            <img src="/img/carrusel3.jpg" className="d-block w-100" alt="Equipamiento de seguridad" />
+            <img src="/m3.jpg" className="d-block w-100" alt="Equipamiento de seguridad" />
           </div>
         </div>
 
