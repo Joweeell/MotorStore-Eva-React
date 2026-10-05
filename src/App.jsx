@@ -11,6 +11,7 @@ import Productos from './pages/Productos';
 import Carrito from './pages/Carrito';
 import IniciarSesion from './pages/IniciarSesion';
 import RegistroUsuario from './pages/RegistroUsuario';
+import Categoria from './pages/Categoria';
 
 import AdminHome from './pages/AdminHome';
 import AdminProductos from './pages/AdminProductos';
@@ -26,6 +27,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/nosotros" element={<Nosotros />} />
+        <Route path="/categoria" element={<Categoria />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/productos" element={<Productos />} />

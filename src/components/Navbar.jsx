@@ -29,7 +29,8 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarNav">
             {/* Enlaces a la izquierda, junto al logo */}
             <ul className="navbar-nav ms-lg-4 me-auto gap-lg-1 mb-3 mb-lg-0 text-center text-lg-start">
-              <li className="nav-item"><Link className="nav-link px-2 text-nowrap" to="/">Inicio</Link></li>
+              <li className="nav-item"><Link className="nav-link px-2 text-nowrap" to="/">Home</Link></li>
+              <li className="nav-item"><Link className="nav-link px-2 text-nowrap" to="/">Categoria</Link></li>
               <li className="nav-item"><Link className="nav-link px-2 text-nowrap" to="/productos">Productos</Link></li>
               <li className="nav-item"><Link className="nav-link px-2 text-nowrap" to="/nosotros">Nosotros</Link></li>
               <li className="nav-item"><Link className="nav-link px-2 text-nowrap" to="/blogs">Blogs</Link></li>
