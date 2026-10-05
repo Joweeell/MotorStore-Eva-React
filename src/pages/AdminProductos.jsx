@@ -1,13 +1,23 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { obtenerProductos, eliminarProducto } from '../data/productosCRUD';
 
 export default function AdminProductos() {
-  // Datos de ejemplo para la tabla del panel admin
-  const productosAdmin = [
-    { id: 1, nombre: "Suzuki GSXR 1000", categoria: "Deportiva", precio: 15000000 },
-    { id: 2, nombre: "Kawasaki Ninja", categoria: "Deportiva", precio: 14500000 },
-    { id: 3, nombre: "Yamaha R9", categoria: "Deportiva", precio: 16000000 },
-    { id: 4, nombre: "Porta Patente", categoria: "Accesorio", precio: 40000 }
-  ];
+  // Estado para guardar los productos que vienen del CRUD
+  const [productos, setProductos] = useState([]);
+
+  // LEER: Carga inicial de productos al montar el componente
+  useEffect(() => {
+    setProductos(obtenerProductos());
+  }, []);
+
+  // ELIMINAR: Borra el registro y actualiza la tabla
+  const handleEliminar = (id) => {
+    if (window.confirm('¿Estás seguro de eliminar este producto?')) {
+      eliminarProducto(id);
+      setProductos(obtenerProductos()); // Recarga los datos en tiempo real
+    }
+  };
 
   return (
     <main className="py-5">
@@ -37,18 +47,28 @@ export default function AdminProductos() {
                   </tr>
                 </thead>
                 <tbody>
-                  {productosAdmin.map((prod) => (
+                  {productos.map((prod) => (
                     <tr key={prod.id}>
                       <td>{prod.id}</td>
                       <td className="fw-semibold">{prod.nombre}</td>
                       <td>{prod.categoria}</td>
-                      <td>${prod.precio.toLocaleString('es-CL')}</td>
+                      <td>${Number(prod.precio).toLocaleString('es-CL')}</td>
                       <td className="text-center">
                         <button className="btn btn-sm btn-outline-dark me-2">Editar</button>
-                        <button className="btn btn-sm btn-outline-danger">Eliminar</button>
+                        <button 
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => handleEliminar(prod.id)}
+                        >
+                          Eliminar
+                        </button>
                       </td>
                     </tr>
                   ))}
+                  {productos.length === 0 && (
+                    <tr>
+                      <td colSpan="5" className="text-center py-4 text-muted">No hay productos en el inventario.</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

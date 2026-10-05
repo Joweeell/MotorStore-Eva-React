@@ -12,7 +12,10 @@ import Carrito from './pages/Carrito';
 import IniciarSesion from './pages/IniciarSesion';
 import RegistroUsuario from './pages/RegistroUsuario';
 import Categoria from './pages/Categoria';
-import Ofertas from './pages/Ofertas'; // <-- AGREGADO
+import Ofertas from './pages/Ofertas';
+import Checkout from './pages/Checkout';
+import PagoCorrecto from './pages/PagoCorrecto';
+import PagoError from './pages/PagoError';
 
 import AdminHome from './pages/AdminHome';
 import AdminProductos from './pages/AdminProductos';
@@ -22,29 +25,36 @@ import AdminUsuarioNuevo from './pages/AdminUsuarioNuevo';
 
 export default function App() {
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/nosotros" element={<Nosotros />} />
-        <Route path="/categoria" element={<Categoria />} />
-        <Route path="/ofertas" element={<Ofertas />} /> {/* <-- AGREGADO */}
-        <Route path="/contacto" element={<Contacto />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/productos" element={<Productos />} />
-        <Route path="/carrito" element={<Carrito />} />
-        <Route path="/iniciar-sesion" element={<IniciarSesion />} />
-        <Route path="/registro" element={<RegistroUsuario />} />
+      <main className="flex-grow-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/nosotros" element={<Nosotros />} />
+          <Route path="/categoria" element={<Categoria />} />
+          <Route path="/categoria/:slug" element={<Categoria />} />
+          <Route path="/ofertas" element={<Ofertas />} />
+          <Route path="/contacto" element={<Contacto />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/productos" element={<Productos />} />
+          <Route path="/carrito" element={<Carrito />} />
+          <Route path="/iniciar-sesion" element={<IniciarSesion />} />
+          <Route path="/registro" element={<RegistroUsuario />} />
 
-        <Route path="/admin" element={<AdminHome />} />
-        <Route path="/admin/productos" element={<AdminProductos />} />
-        <Route path="/admin/productos/nuevo" element={<AdminProductoNuevo />} />
-        <Route path="/admin/usuarios" element={<AdminUsuarios />} />
-        <Route path="/admin/usuarios/nuevo" element={<AdminUsuarioNuevo />} />
-      </Routes>
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/pago-correcto" element={<PagoCorrecto />} />
+          <Route path="/pago-error" element={<PagoError />} />
+
+          <Route path="/admin" element={<AdminHome />} />
+          <Route path="/admin/productos" element={<AdminProductos />} />
+          <Route path="/admin/productos/nuevo" element={<AdminProductoNuevo />} />
+          <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+          <Route path="/admin/usuarios/nuevo" element={<AdminUsuarioNuevo />} />
+        </Routes>
+      </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
