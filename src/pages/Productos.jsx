@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 
 // Inventario oficial extraído de tu proyecto original de MotorStore
 const productosMotorStore = [
-  { id: 1, nombre: "Suzuki GSXR 1000", categoria: "Deportiva", precio: 15000000, img: "img/GSXR1000.jpg", descripcion: "Motocicleta deportiva de alto rendimiento." },
-  { id: 2, nombre: "Kawasaki Ninja", categoria: "Deportiva", precio: 14500000, img: "img/kawa.webp", descripcion: "Ícono deportivo con motor potente y ágil." },
-  { id: 3, nombre: "Yamaha R9", categoria: "Deportiva", precio: 16000000, img: "img/r9.jpeg", descripcion: "Superdeportiva de última generación con chasis liviano." },
-  { id: 4, nombre: "Porta Patente", categoria: "Accesorio", precio: 40000, img: "img/pl.jpg", descripcion: "Accesorio resistente y de alta durabilidad." },
-  { id: 5, nombre: "Escape Yoshimura", categoria: "Indumentaria", precio: 160000, img: "img/escape.webp", descripcion: "Escape de fibra de carbono real, excelente sonido." },
-  { id: 6, nombre: "Guantes Alpinestar", categoria: "Seguridad", precio: 139900, img: "img/guantes.jpg", descripcion: "Guantes racing de piel de cabra de primera calidad." },
-  { id: 7, nombre: "Chaqueta MotorStore", categoria: "Indumentaria", precio: 120000, img: "img/chaqueta.jpg", descripcion: "Chaqueta de moto con protecciones reforzadas." },
-  { id: 8, nombre: "Casco Integral", categoria: "Seguridad", precio: 430990, img: "img/casco.jpg", descripcion: "Casco integral certificado con excelente ventilación." }
+  { id: 1, nombre: "Suzuki GSXR 1000", categoria: "Deportiva", precio: 15000000, img: "GSXR1000.jpg", descripcion: "Motocicleta deportiva de alto rendimiento." },
+  { id: 2, nombre: "Kawasaki Ninja", categoria: "Deportiva", precio: 14500000, img: "zx.jpg", descripcion: "Ícono deportivo con motor potente y ágil." },
+  { id: 3, nombre: "Yamaha R9", categoria: "Deportiva", precio: 16000000, img: "r9.jpeg", descripcion: "Superdeportiva de última generación con chasis liviano." },
+  { id: 4, nombre: "Porta Patente", categoria: "Accesorio", precio: 40000, img: "m2.webp", descripcion: "Accesorio resistente y de alta durabilidad." },
+  { id: 5, nombre: "Escape Yoshimura", categoria: "Indumentaria", precio: 160000, img: "escape.webp", descripcion: "Escape de fibra de carbono real, excelente sonido." },
+  { id: 6, nombre: "Guantes Alpinestar", categoria: "Seguridad", precio: 139900, img: "guantes.jpg", descripcion: "Guantes racing de piel de cabra de primera calidad." },
+  { id: 7, nombre: "Chaqueta MotorStore", categoria: "Indumentaria", precio: 120000, img: "chaqueta.jpg", descripcion: "Chaqueta de moto con protecciones reforzadas." },
+  { id: 8, nombre: "Casco Integral", categoria: "Seguridad", precio: 430990, img: "casco.jpg", descripcion: "Casco integral certificado con excelente ventilación." }
 ];
 
 export default function Productos() {
