@@ -1,3 +1,4 @@
+
 import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -22,6 +23,7 @@ import AdminProductos from './pages/AdminProductos';
 import AdminProductoNuevo from './pages/AdminProductoNuevo';
 import AdminUsuarios from './pages/AdminUsuarios';
 import AdminUsuarioNuevo from './pages/AdminUsuarioNuevo';
+import AdminProductoEditar from './pages/AdminProductoEditar';
 
 export default function App() {
   return (
@@ -30,6 +32,7 @@ export default function App() {
 
       <main className="flex-grow-1">
         <Routes>
+          {/* Tienda */}
           <Route path="/" element={<Home />} />
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/categoria" element={<Categoria />} />
@@ -38,19 +41,45 @@ export default function App() {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/productos" element={<Productos />} />
-          <Route path="/carrito" element={<Carrito />} />
-          <Route path="/iniciar-sesion" element={<IniciarSesion />} />
-          <Route path="/registro" element={<RegistroUsuario />} />
 
+          {/* Carrito y compra */}
+          <Route path="/carrito" element={<Carrito />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/pago-correcto" element={<PagoCorrecto />} />
           <Route path="/pago-error" element={<PagoError />} />
 
+          {/* Cuenta de usuario */}
+          <Route path="/login" element={<IniciarSesion />} />
+          <Route path="/iniciar-sesion" element={<IniciarSesion />} />
+          <Route path="/registro" element={<RegistroUsuario />} />
+
+          {/* Administración */}
           <Route path="/admin" element={<AdminHome />} />
-          <Route path="/admin/productos" element={<AdminProductos />} />
-          <Route path="/admin/productos/nuevo" element={<AdminProductoNuevo />} />
-          <Route path="/admin/usuarios" element={<AdminUsuarios />} />
-          <Route path="/admin/usuarios/nuevo" element={<AdminUsuarioNuevo />} />
+
+          <Route
+            path="/admin/productos"
+            element={<AdminProductos />}
+          />
+
+          <Route
+            path="/admin/productos/nuevo"
+            element={<AdminProductoNuevo />}
+          />
+
+          <Route
+            path="/admin/productos/editar/:id"
+            element={<AdminProductoEditar />}
+          />
+
+          <Route
+            path="/admin/usuarios"
+            element={<AdminUsuarios />}
+          />
+
+          <Route
+            path="/admin/usuarios/nuevo"
+            element={<AdminUsuarioNuevo />}
+          />
         </Routes>
       </main>
 
