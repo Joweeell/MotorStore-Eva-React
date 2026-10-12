@@ -1,8 +1,10 @@
-
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { autenticarUsuario } from '../data/usuariosCRUD';
 
 export default function IniciarSesion() {
+  const navigate = useNavigate();
+
   const [correo, setCorreo] = useState('');
   const [pass, setPass] = useState('');
   const [errores, setErrores] = useState({});
@@ -11,24 +13,46 @@ export default function IniciarSesion() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const nuevos = {};
     setMensaje('');
 
+    const nuevos = {};
     const correoLimpio = correo.trim();
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoLimpio)) {
       nuevos.correo = 'Ingresa un correo válido.';
     }
 
-    if (pass.length < 6) {
-      nuevos.pass = 'La contraseña debe tener al menos 6 caracteres.';
+    if (pass.length < 6 || pass.length > 10) {
+      nuevos.pass =
+        'La contraseña debe tener entre 6 y 10 caracteres.';
     }
 
     setErrores(nuevos);
 
-    if (Object.keys(nuevos).length === 0) {
+    if (Object.keys(nuevos).length > 0) {
+      return;
+    }
+
+    try {
+      const resultado = autenticarUsuario(correoLimpio, pass);
+
+      if (!resultado.ok) {
+        setMensaje(resultado.mensaje);
+        return;
+      }
+
+      // Guardamos solamente los datos públicos de la sesión.
+      sessionStorage.setItem(
+        'motorstore_sesion',
+        JSON.stringify(resultado.usuario)
+      );
+
+      setMensaje(`¡Bienvenido/a, ${resultado.usuario.nombre}!`);
+
+      navigate('/');
+    } catch {
       setMensaje(
-        'Los datos son válidos. Falta conectar la autenticación de usuarios.'
+        'No se pudo iniciar sesión. Inténtalo nuevamente.'
       );
     }
   };
@@ -74,16 +98,16 @@ export default function IniciarSesion() {
                   value={correo}
                   onChange={(e) => {
                     setCorreo(e.target.value);
-                    setErrores((prev) => ({ ...prev, correo: '' }));
+                    setErrores((prev) => ({
+                      ...prev,
+                      correo: '',
+                    }));
                     setMensaje('');
                   }}
                 />
 
                 {errores.correo && (
-                  <div
-                    id="error-login-correo"
-                    className="invalid-feedback"
-                  >
+                  <div className="invalid-feedback">
                     {errores.correo}
                   </div>
                 )}
@@ -108,23 +132,30 @@ export default function IniciarSesion() {
                   value={pass}
                   onChange={(e) => {
                     setPass(e.target.value);
-                    setErrores((prev) => ({ ...prev, pass: '' }));
+                    setErrores((prev) => ({
+                      ...prev,
+                      pass: '',
+                    }));
                     setMensaje('');
                   }}
                 />
 
                 {errores.pass && (
-                  <div
-                    id="error-login-pass"
-                    className="invalid-feedback"
-                  >
+                  <div className="invalid-feedback">
                     {errores.pass}
                   </div>
                 )}
               </div>
 
               {mensaje && (
-                <div className="alert alert-info" role="status">
+                <div
+                  className={`alert ${
+                    mensaje.startsWith('¡Bienvenido')
+                      ? 'alert-success'
+                      : 'alert-danger'
+                  }`}
+                  role="status"
+                >
                   {mensaje}
                 </div>
               )}

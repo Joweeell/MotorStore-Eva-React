@@ -10,6 +10,7 @@ const categorias = [
 ];
 
 const CART_KEY = 'motorstore_carrito';
+const SESSION_KEY = 'motorstore_sesion';
 
 function obtenerCantidadCarrito() {
   try {
@@ -26,6 +27,20 @@ function obtenerCantidadCarrito() {
   }
 }
 
+function obtenerSesion() {
+  try {
+    const sesion = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+
+    if (sesion && typeof sesion.nombre === 'string' && sesion.correo) {
+      return sesion;
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export default function Navbar() {
   const [oscuro, setOscuro] = useState(
     () => localStorage.getItem('modoOscuro') === 'true'
@@ -36,6 +51,7 @@ export default function Navbar() {
   const [cantidadCarrito, setCantidadCarrito] = useState(
     obtenerCantidadCarrito
   );
+  const [usuario, setUsuario] = useState(obtenerSesion);
 
   const catRef = useRef(null);
   const navigate = useNavigate();
@@ -63,6 +79,10 @@ export default function Navbar() {
   }, [pathname]);
 
   useEffect(() => {
+    setUsuario(obtenerSesion());
+  }, [pathname]);
+
+  useEffect(() => {
     const cerrar = (e) => {
       if (catRef.current && !catRef.current.contains(e.target)) {
         setCatAbierto(false);
@@ -86,6 +106,13 @@ export default function Navbar() {
     navigate(ruta);
   };
 
+  const cerrarSesion = () => {
+    sessionStorage.removeItem(SESSION_KEY);
+    setUsuario(null);
+    cerrarTodo();
+    navigate('/');
+  };
+
   const buscar = (e) => {
     e.preventDefault();
 
@@ -103,6 +130,50 @@ export default function Navbar() {
     'nav-link px-2 text-nowrap ' + (isActive ? 'fw-bold active' : '');
 
   const enCategoria = pathname.startsWith('/categoria');
+
+  const botonesCuenta = (
+    <>
+      {usuario ? (
+        <>
+          <span
+            className={`navbar-text text-nowrap ${
+              oscuro ? 'text-light' : 'text-dark'
+            }`}
+          >
+            Hola, {usuario.nombre}
+          </span>
+
+          <button
+            type="button"
+            className="btn btn-outline-danger"
+            onClick={cerrarSesion}
+          >
+            Cerrar sesión
+          </button>
+        </>
+      ) : (
+        <>
+          <button
+            type="button"
+            className={`btn ${
+              oscuro ? 'btn-outline-light' : 'btn-outline-primary'
+            }`}
+            onClick={() => navegarA('/login')}
+          >
+            Iniciar sesión
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => navegarA('/registro')}
+          >
+            Crear cuenta
+          </button>
+        </>
+      )}
+    </>
+  );
 
   return (
     <header
@@ -128,6 +199,7 @@ export default function Navbar() {
               className="form-control"
               type="search"
               placeholder="Buscar"
+              aria-label="Buscar productos"
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
             />
@@ -137,24 +209,8 @@ export default function Navbar() {
             </button>
           </form>
 
-          <div className="d-none d-lg-flex gap-2">
-            <button
-              type="button"
-              className={`btn ${
-                oscuro ? 'btn-outline-light' : 'btn-outline-primary'
-              }`}
-              onClick={() => navegarA('/login')}
-            >
-              Iniciar Sesión
-            </button>
-
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => navegarA('/registro')}
-            >
-              Crear Cuenta
-            </button>
+          <div className="d-none d-lg-flex gap-2 align-items-center">
+            {botonesCuenta}
           </div>
 
           <button
@@ -179,6 +235,7 @@ export default function Navbar() {
                 className="form-control"
                 type="search"
                 placeholder="Buscar"
+                aria-label="Buscar productos"
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
               />
@@ -188,24 +245,8 @@ export default function Navbar() {
               </button>
             </form>
 
-            <div className="d-flex gap-2">
-              <button
-                type="button"
-                onClick={() => navegarA('/login')}
-                className={`btn flex-fill ${
-                  oscuro ? 'btn-outline-light' : 'btn-outline-primary'
-                }`}
-              >
-                Iniciar Sesión
-              </button>
-
-              <button
-                type="button"
-                onClick={() => navegarA('/registro')}
-                className="btn btn-primary flex-fill"
-              >
-                Crear Cuenta
-              </button>
+            <div className="d-flex gap-2 align-items-center flex-wrap">
+              {botonesCuenta}
             </div>
           </div>
 

@@ -1,4 +1,3 @@
-
 import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -9,6 +8,7 @@ import Nosotros from './pages/Nosotros';
 import Contacto from './pages/Contacto';
 import Blogs from './pages/Blogs';
 import Productos from './pages/Productos';
+import DetalleProducto from './pages/DetalleProducto';
 import Carrito from './pages/Carrito';
 import IniciarSesion from './pages/IniciarSesion';
 import RegistroUsuario from './pages/RegistroUsuario';
@@ -41,6 +41,12 @@ export default function App() {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/productos" element={<Productos />} />
+
+          {/* Detalle de producto */}
+          <Route
+            path="/producto/:id"
+            element={<DetalleProducto />}
+          />
 
           {/* Carrito y compra */}
           <Route path="/carrito" element={<Carrito />} />
