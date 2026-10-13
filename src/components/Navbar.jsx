@@ -142,6 +142,15 @@ export default function Navbar() {
           >
             Hola, {usuario.nombre}
           </span>
+          {usuario.rol === 'admin' && (
+            <button
+              type="button"
+              className="btn btn-warning"
+              onClick={() => navegarA('/admin')}
+            >
+              Admin
+            </button>
+          )}
 
           <button
             type="button"

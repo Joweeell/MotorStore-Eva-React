@@ -49,7 +49,7 @@ export default function IniciarSesion() {
 
       setMensaje(`¡Bienvenido/a, ${resultado.usuario.nombre}!`);
 
-      navigate('/');
+      navigate(resultado.usuario.rol === 'admin' ? '/admin' : '/');
     } catch {
       setMensaje(
         'No se pudo iniciar sesión. Inténtalo nuevamente.'

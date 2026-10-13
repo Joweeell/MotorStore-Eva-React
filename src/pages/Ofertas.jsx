@@ -1,4 +1,4 @@
-
+import { useState } from 'react';
 const ofertas = [
   {
     id: 1,
@@ -34,6 +34,7 @@ const formatoPrecio = (precio) =>
   `$${Number(precio).toLocaleString('es-CL')}`;
 
 export default function Ofertas() {
+  const [mensaje, setMensaje] = useState('');
   const agregarAlCarrito = (oferta) => {
     const clave = 'motorstore_carrito';
 
@@ -61,10 +62,10 @@ export default function Ofertas() {
 
       localStorage.setItem(clave, JSON.stringify(actualizado));
       window.dispatchEvent(new Event('carritoActualizado'));
-      alert(`${oferta.nombre} se agregó al carrito.`);
+      setMensaje(`${oferta.nombre} se agregó al carrito.`);
     } catch (error) {
       console.error('No se pudo actualizar el carrito:', error);
-      alert('No se pudo agregar la oferta. Inténtalo nuevamente.');
+      setMensaje('No se pudo agregar la oferta. Inténtalo nuevamente.');
     }
   };
 
@@ -79,6 +80,11 @@ export default function Ofertas() {
             Aprovecha estos descuentos exclusivos en MotorStore por tiempo limitado.
           </p>
         </div>
+                {mensaje && (
+          <div className="alert alert-info" role="status">
+            {mensaje}
+          </div>
+        )}
 
         <div className="row g-4">
           {ofertas.map((oferta) => (

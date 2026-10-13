@@ -24,6 +24,7 @@ import AdminProductoNuevo from './pages/AdminProductoNuevo';
 import AdminUsuarios from './pages/AdminUsuarios';
 import AdminUsuarioNuevo from './pages/AdminUsuarioNuevo';
 import AdminProductoEditar from './pages/AdminProductoEditar';
+import RequireAdmin from './components/RequireAdmin';
 
 export default function App() {
   return (
@@ -59,33 +60,35 @@ export default function App() {
           <Route path="/iniciar-sesion" element={<IniciarSesion />} />
           <Route path="/registro" element={<RegistroUsuario />} />
 
-          {/* Administración */}
-          <Route path="/admin" element={<AdminHome />} />
+          {/* Administración (solo rol admin) */}
+          <Route element={<RequireAdmin />}>
+            <Route path="/admin" element={<AdminHome />} />
 
-          <Route
-            path="/admin/productos"
-            element={<AdminProductos />}
-          />
+            <Route
+              path="/admin/productos"
+              element={<AdminProductos />}
+            />
 
-          <Route
-            path="/admin/productos/nuevo"
-            element={<AdminProductoNuevo />}
-          />
+            <Route
+              path="/admin/productos/nuevo"
+              element={<AdminProductoNuevo />}
+            />
 
-          <Route
-            path="/admin/productos/editar/:id"
-            element={<AdminProductoEditar />}
-          />
+            <Route
+              path="/admin/productos/editar/:id"
+              element={<AdminProductoEditar />}
+            />
 
-          <Route
-            path="/admin/usuarios"
-            element={<AdminUsuarios />}
-          />
+            <Route
+              path="/admin/usuarios"
+              element={<AdminUsuarios />}
+            />
 
-          <Route
-            path="/admin/usuarios/nuevo"
-            element={<AdminUsuarioNuevo />}
-          />
+            <Route
+              path="/admin/usuarios/nuevo"
+              element={<AdminUsuarioNuevo />}
+            />
+          </Route>
         </Routes>
       </main>
 

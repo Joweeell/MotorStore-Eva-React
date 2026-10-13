@@ -1,3 +1,12 @@
+const ADMIN_PREDEFINIDO = {
+  nombre: 'Administrador',
+  correo: 'admin@duoc.cl',
+  pass: 'admin123',
+  region: 'Región Metropolitana',
+  comuna: 'Santiago',
+  rol: 'admin',
+};
+
 const USERS_KEY = 'motorstore_usuarios';
 
 export function obtenerUsuarios() {
@@ -16,9 +25,9 @@ export function registrarUsuario(usuario) {
   const usuarios = obtenerUsuarios();
   const correo = usuario.correo.trim().toLowerCase();
 
-  const existe = usuarios.some(
-    (u) => u.correo.toLowerCase() === correo
-  );
+  const existe =
+    correo === ADMIN_PREDEFINIDO.correo ||
+    usuarios.some((u) => u.correo.toLowerCase() === correo);
 
   if (existe) {
     return {
@@ -33,6 +42,7 @@ export function registrarUsuario(usuario) {
     pass: usuario.pass,
     region: usuario.region,
     comuna: usuario.comuna,
+    rol: 'cliente',
   });
 
   localStorage.setItem(USERS_KEY, JSON.stringify(usuarios));
@@ -44,7 +54,7 @@ export function registrarUsuario(usuario) {
 }
 
 export function autenticarUsuario(correo, pass) {
-  const usuarios = obtenerUsuarios();
+  const usuarios = [ADMIN_PREDEFINIDO, ...obtenerUsuarios()];
   const correoLimpio = correo.trim().toLowerCase();
 
   const usuario = usuarios.find(
@@ -67,6 +77,7 @@ export function autenticarUsuario(correo, pass) {
       correo: usuario.correo,
       region: usuario.region,
       comuna: usuario.comuna,
+      rol: usuario.rol || 'cliente',
     },
   };
 }
