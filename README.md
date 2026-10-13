@@ -1,19 +1,70 @@
-# React + Vite
+# 🏍️ MotorStore - Evaluación 2 (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**MotorStore** es una plataforma e-commerce desarrollada para la venta de motocicletas, indumentaria, accesorios y equipamiento de seguridad vial. Este proyecto corresponde a la **Evaluación 2** de la asignatura **Fullstack 2** en **Duoc UC**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tecnologías y Herramientas
 
-## React Compiler
+- **Frontend:** React 18 + Vite
+- **Enrutamiento:** React Router DOM (v6)
+- **Estilos & UI:** Bootstrap 5.3 + CSS personalizado
+- **Persistencia de Datos:** JavaScript ES6+ (Módulos CRUD con simulación en LocalStorage)[cite: 2]
+- **Entorno de Testing:** Jasmine & Karma[cite: 2, 4]
+- **Transpilación para Tests:** Babel (`babel.config.cjs`)
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+---
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+## 📁 Estructura del Proyecto
 
-## Expanding the Oxlint configuration
+```text
+MotorStore-Eva-React/
+├── public/                     # Imágenes y recursos estáticos del catálogo[cite: 1]
+│   ├── botas.jpg
+│   ├── casco.jpg
+│   ├── chaqueta.jpg
+│   ├── escape.webp
+│   ├── guantes.jpg
+│   └── ...
+├── src/
+│   ├── components/             # Componentes estructurales de la interfaz[cite: 2]
+│   │   ├── Footer.jsx
+│   │   ├── Navbar.jsx
+│   │   └── RequireAdmin.jsx
+│   ├── data/                   # Lógica de datos y persistencia (CRUD)[cite: 2]
+│   │   ├── productosCRUD.js
+│   │   ├── productosCRUD.spec.js   # Pruebas unitarias en Jasmine[cite: 2]
+│   │   └── usuariosCRUD.js
+│   ├── pages/                  # Vistas y páginas de la aplicación
+│   │   ├── AdminHome.jsx
+│   │   ├── AdminProductoEditar.jsx
+│   │   ├── AdminProductoNuevo.jsx
+│   │   ├── AdminProductos.jsx
+│   │   ├── AdminUsuarioNuevo.jsx
+│   │   ├── AdminUsuarios.jsx
+│   │   ├── Blogs.jsx
+│   │   ├── Carrito.jsx
+│   │   ├── Categoria.jsx
+│   │   ├── Checkout.jsx
+│   │   ├── Contacto.jsx
+│   │   ├── DetalleProducto.jsx
+│   │   ├── Home.jsx
+│   │   ├── IniciarSesion.jsx
+│   │   ├── Nosotros.jsx
+│   │   ├── Ofertas.jsx
+│   │   ├── PagoCorrecto.jsx
+│   │   ├── PagoError.jsx
+│   │   ├── Productos.jsx
+│   │   └── RegistroUsuario.jsx
+│   ├── App.css
+│   ├── App.jsx                 # Configuración de rutas e integración principal
+│   ├── index.css
+│   └── main.jsx                # Punto de entrada de React[cite: 3]
+├── babel.config.cjs            # Configuración de Babel para Karma/Jasmine
+├── karma.conf.cjs              # Configuración del ejecutor de pruebas Karma[cite: 4]
+├── package.json
+├── vite.config.js
+└── README.md
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+# Pruebas Unitarias
+# npx karma start karma.conf.cjs
