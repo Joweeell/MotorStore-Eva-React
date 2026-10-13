@@ -67,4 +67,5 @@ MotorStore-Eva-React/
 └── README.md
 
 # Pruebas Unitarias
-# npx karma start karma.conf.cjs
+# npm i -D jsdom
+# npm test

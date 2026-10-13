@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import {
   obtenerProductos,
   crearProducto,
@@ -27,16 +28,13 @@ describe("Pruebas unitarias de productosCRUD", () => {
   // Prueba 1: carga del inventario inicial.
   it("debe cargar los 8 productos iniciales", () => {
     const productos = obtenerProductos();
-
     expect(productos.length).toBe(8);
   });
 
   // Prueba 2: persistencia del inventario inicial.
   it("debe guardar el inventario inicial en localStorage", () => {
     obtenerProductos();
-
     const guardados = JSON.parse(localStorage.getItem(DB_KEY));
-
     expect(guardados.length).toBe(8);
   });
 
@@ -47,10 +45,9 @@ describe("Pruebas unitarias de productosCRUD", () => {
     ];
 
     localStorage.setItem(DB_KEY, JSON.stringify(guardados));
-
     const productos = obtenerProductos();
 
-    expect(productos.some((p) => p.id === 100)).toBeTrue();
+    expect(productos.some((p) => p.id === 100)).toBe(true);
   });
 
   // Prueba 4: recuperación de productos iniciales faltantes.
@@ -67,7 +64,7 @@ describe("Pruebas unitarias de productosCRUD", () => {
     expect(productos.length).toBe(9);
     expect(
       productos.some((p) => p.nombre === "Suzuki GSXR 1000")
-    ).toBeTrue();
+    ).toBe(true);
   });
 
   // Prueba 5: creación con identificador nuevo.
@@ -82,12 +79,11 @@ describe("Pruebas unitarias de productosCRUD", () => {
   // Prueba 6: persistencia del producto creado.
   it("debe guardar el producto creado en localStorage", () => {
     crearProducto(productoPrueba);
-
     const guardados = JSON.parse(localStorage.getItem(DB_KEY));
 
     expect(
       guardados.some((p) => p.nombre === "Honda CB500")
-    ).toBeTrue();
+    ).toBe(true);
   });
 
   // Prueba 7: actualización de un producto existente.
@@ -118,17 +114,16 @@ describe("Pruebas unitarias de productosCRUD", () => {
     const resultado = eliminarProducto(creado.id);
     const productos = obtenerProductos();
 
-    expect(resultado).toBeTrue();
+    expect(resultado).toBe(true);
     expect(
       productos.some((p) => p.id === creado.id)
-    ).toBeFalse();
+    ).toBe(false);
   });
 
   // Prueba 10: intento de eliminar un ID inexistente.
   it("debe devolver false si el producto que se elimina no existe", () => {
     const resultado = eliminarProducto(9999);
-
-    expect(resultado).toBeFalse();
+    expect(resultado).toBe(false);
   });
 
   // Prueba 11: inventario guardado con formato inválido.
@@ -164,10 +159,10 @@ describe("Pruebas unitarias de productosCRUD", () => {
     expect(productos.length).toBe(9);
     expect(
       productos.some((p) => p.nombre === "Moto personalizada")
-    ).toBeTrue();
+    ).toBe(true);
     expect(
       productos.some((p) => p.nombre === "Suzuki GSXR 1000")
-    ).toBeTrue();
+    ).toBe(true);
   });
 
   // Prueba 13: no duplicar productos iniciales.
@@ -210,7 +205,6 @@ describe("Pruebas unitarias de productosCRUD", () => {
       descripcion: "Nueva moto de prueba",
     });
 
-    // obtenerProductos agrega los productos iniciales faltantes.
     expect(nuevoProducto.id).toBe(9);
   });
 
@@ -238,7 +232,6 @@ describe("Pruebas unitarias de productosCRUD", () => {
       descripcion: "Nueva moto de prueba",
     });
 
-    // Los productos iniciales faltantes se agregan antes de crear.
     expect(nuevoProducto.id).toBe(9);
   });
 });
