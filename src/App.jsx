@@ -95,6 +95,9 @@ export default function App() {
                 path="/admin/usuarios/nuevo"
                 element={<AdminUsuarioNuevo />}
               />
+              <Route 
+                path="/admin/usuarios/editar/:correo" 
+                element={<AdminUsuarioNuevo />} />
 
               {/* Vistas pendientes de desarrollar */}
               <Route
