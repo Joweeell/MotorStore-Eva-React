@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -25,11 +25,17 @@ import AdminUsuarios from './pages/AdminUsuarios';
 import AdminUsuarioNuevo from './pages/AdminUsuarioNuevo';
 import AdminProductoEditar from './pages/AdminProductoEditar';
 import RequireAdmin from './components/RequireAdmin';
+import AdminLayout from './components/AdminLayout';
+import AdminPendiente from './pages/AdminPendiente';
 
 export default function App() {
+  const { pathname } = useLocation();
+  // El panel de administración tiene su propio diseño (sin navbar ni footer de la tienda)
+  const enAdmin = pathname.startsWith('/admin');
+
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Navbar />
+      {!enAdmin && <Navbar />}
 
       <main className="flex-grow-1">
         <Routes>
@@ -62,37 +68,57 @@ export default function App() {
 
           {/* Administración (solo rol admin) */}
           <Route element={<RequireAdmin />}>
-            <Route path="/admin" element={<AdminHome />} />
+            <Route element={<AdminLayout />}>
+              <Route path="/admin" element={<AdminHome />} />
 
-            <Route
-              path="/admin/productos"
-              element={<AdminProductos />}
-            />
+              <Route
+                path="/admin/productos"
+                element={<AdminProductos />}
+              />
 
-            <Route
-              path="/admin/productos/nuevo"
-              element={<AdminProductoNuevo />}
-            />
+              <Route
+                path="/admin/productos/nuevo"
+                element={<AdminProductoNuevo />}
+              />
 
-            <Route
-              path="/admin/productos/editar/:id"
-              element={<AdminProductoEditar />}
-            />
+              <Route
+                path="/admin/productos/editar/:id"
+                element={<AdminProductoEditar />}
+              />
 
-            <Route
-              path="/admin/usuarios"
-              element={<AdminUsuarios />}
-            />
+              <Route
+                path="/admin/usuarios"
+                element={<AdminUsuarios />}
+              />
 
-            <Route
-              path="/admin/usuarios/nuevo"
-              element={<AdminUsuarioNuevo />}
-            />
+              <Route
+                path="/admin/usuarios/nuevo"
+                element={<AdminUsuarioNuevo />}
+              />
+
+              {/* Vistas pendientes de desarrollar */}
+              <Route
+                path="/admin/ordenes"
+                element={<AdminPendiente titulo="Órdenes / Boletas" />}
+              />
+              <Route
+                path="/admin/categorias"
+                element={<AdminPendiente titulo="Categorías" />}
+              />
+              <Route
+                path="/admin/reportes"
+                element={<AdminPendiente titulo="Reportes" />}
+              />
+              <Route
+                path="/admin/perfil"
+                element={<AdminPendiente titulo="Perfil" />}
+              />
+            </Route>
           </Route>
         </Routes>
       </main>
 
-      <Footer />
+      {!enAdmin && <Footer />}
     </div>
   );
 }
