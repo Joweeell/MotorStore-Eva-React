@@ -89,7 +89,9 @@ export default function AdminProductoEditar() {
         return;
       }
 
-      navigate('/admin/productos');
+        navigate('/admin/productos', {
+        state: { mensaje: `"${nombre}" se actualizó correctamente.` },
+      });
     } catch (err) {
       console.error('Error al actualizar el producto:', err);
       setError('Ocurrió un error al guardar los cambios.');

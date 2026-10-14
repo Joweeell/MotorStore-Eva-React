@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   obtenerProductos,
   eliminarProducto,
@@ -9,6 +8,17 @@ import {
 export default function AdminProductos() {
   const [productos, setProductos] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Aviso de resultado (viene desde Nuevo/Editar producto o de eliminar aquí)
+  const [mensaje, setMensaje] = useState(
+    location.state?.mensaje
+      ? { tipo: 'success', texto: location.state.mensaje }
+      : null
+  );
+
+  // Producto que el usuario quiere eliminar y aún debe confirmar
+  const [pendiente, setPendiente] = useState(null);
 
   const cargarProductos = () => {
     try {
@@ -24,11 +34,13 @@ export default function AdminProductos() {
   }, []);
 
   const handleEliminar = (id, nombre) => {
-    const confirmar = window.confirm(
-      `¿Estás seguro de eliminar "${nombre}"?`
-    );
+    setMensaje(null);
+    setPendiente({ id, nombre });
+  };
 
-    if (!confirmar) return;
+  const confirmarEliminacion = () => {
+    const { id, nombre } = pendiente;
+    setPendiente(null);
 
     try {
       const eliminado = eliminarProducto(id);
@@ -37,13 +49,23 @@ export default function AdminProductos() {
         setProductos((actuales) =>
           actuales.filter((producto) => producto.id !== id)
         );
+        setMensaje({
+          tipo: 'success',
+          texto: `"${nombre}" se eliminó correctamente.`,
+        });
       } else {
-        window.alert('No se encontró el producto para eliminar.');
+        setMensaje({
+          tipo: 'warning',
+          texto: 'No se encontró el producto para eliminar.',
+        });
         cargarProductos();
       }
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
-      window.alert('No se pudo eliminar el producto.');
+      setMensaje({
+        tipo: 'danger',
+        texto: 'No se pudo eliminar el producto.',
+      });
     }
   };
 
@@ -65,6 +87,46 @@ export default function AdminProductos() {
             </li>
           </ol>
         </nav>
+
+        {mensaje && (
+          <div
+            className={`alert alert-${mensaje.tipo} d-flex justify-content-between align-items-center`}
+            role="status"
+          >
+            <span>{mensaje.texto}</span>
+            <button
+              type="button"
+              className="btn-close"
+              aria-label="Cerrar"
+              onClick={() => setMensaje(null)}
+            ></button>
+          </div>
+        )}
+
+        {pendiente && (
+          <div
+            className="alert alert-warning d-flex flex-wrap justify-content-between align-items-center gap-2"
+            role="alert"
+          >
+            <span>¿Estás seguro de eliminar "{pendiente.nombre}"?</span>
+            <div className="d-flex gap-2">
+              <button
+                type="button"
+                className="btn btn-sm btn-secondary"
+                onClick={() => setPendiente(null)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-danger"
+                onClick={confirmarEliminacion}
+              >
+                Sí, eliminar
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="card shadow-sm border-secondary">
           <div className="card-header bg-dark text-white d-flex flex-wrap justify-content-between align-items-center gap-2">

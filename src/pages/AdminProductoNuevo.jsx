@@ -52,7 +52,9 @@ export default function AdminProductoNuevo() {
         descripcion: formulario.descripcion.trim(),
       });
 
-      navigate('/admin/productos');
+        navigate('/admin/productos', {
+        state: { mensaje: `"${nombre}" se agregó correctamente.` },
+      });
     } catch (err) {
       console.error('Error al guardar el producto:', err);
       setError('No se pudo guardar el producto. Inténtalo nuevamente.');
