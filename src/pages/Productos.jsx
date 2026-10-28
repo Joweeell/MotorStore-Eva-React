@@ -1,4 +1,3 @@
-
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { obtenerProductos } from '../data/productosCRUD';
@@ -13,8 +12,11 @@ export default function Productos() {
   // Leer el término enviado desde el buscador del Navbar
   const terminoBusqueda = searchParams.get('q') || '';
 
+  // MODIFICADO: Ahora espera a que los datos de MySQL respondan correctamente
   useEffect(() => {
-    setProductos(obtenerProductos());
+    obtenerProductos().then((datosProductos) => {
+      setProductos(datosProductos);
+    });
   }, []);
 
   // Filtrar por nombre, descripción o categoría
