@@ -1,13 +1,7 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 
-const categorias = [
-  { nombre: 'Cascos', slug: 'cascos' },
-  { nombre: 'Chaquetas', slug: 'chaquetas' },
-  { nombre: 'Guantes', slug: 'guantes' },
-  { nombre: 'Accesorios', slug: 'accesorios' },
-];
+import { apiRequest } from '../services/api';
 
 const CART_KEY = 'motorstore_carrito';
 const SESSION_KEY = 'motorstore_sesion';
@@ -47,6 +41,8 @@ export default function Navbar() {
   );
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [catAbierto, setCatAbierto] = useState(false);
+  const [categorias, setCategorias] = useState([]);
+  const [errorCategorias, setErrorCategorias] = useState(false);
   const [busqueda, setBusqueda] = useState('');
   const [cantidadCarrito, setCantidadCarrito] = useState(
     obtenerCantidadCarrito
@@ -95,6 +91,23 @@ export default function Navbar() {
       document.removeEventListener('mousedown', cerrar);
     };
   }, []);
+
+  useEffect(() => {
+    if (!catAbierto) return;
+    let activo = true;
+    setErrorCategorias(false);
+    apiRequest('/categorias')
+      .then((datos) => {
+        if (activo) setCategorias(Array.isArray(datos) ? datos : []);
+      })
+      .catch(() => {
+        if (activo) {
+          setCategorias([]);
+          setErrorCategorias(true);
+        }
+      });
+    return () => { activo = false; };
+  }, [catAbierto, pathname]);
 
   const cerrarTodo = () => {
     setMenuAbierto(false);
@@ -294,14 +307,17 @@ export default function Navbar() {
                     zIndex: 1000,
                   }}
                 >
+                  {errorCategorias && (
+                    <li className="dropdown-item-text">No se pudieron cargar las categorías.</li>
+                  )}
                   {categorias.map((c) => (
-                    <li key={c.slug}>
+                    <li key={c.idCategoria}>
                       <Link
                         className="dropdown-item"
-                        to={`/categoria/${c.slug}`}
+                        to={`/categoria/${c.idCategoria}`}
                         onClick={cerrarTodo}
                       >
-                        {c.nombre}
+                        {c.nombreCategoria}
                       </Link>
                     </li>
                   ))}

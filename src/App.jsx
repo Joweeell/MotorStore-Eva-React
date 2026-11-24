@@ -1,3 +1,4 @@
+
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -18,27 +19,36 @@ import Checkout from './pages/Checkout';
 import PagoCorrecto from './pages/PagoCorrecto';
 import PagoError from './pages/PagoError';
 
+// Páginas de administración
 import AdminHome from './pages/AdminHome';
 import AdminProductos from './pages/AdminProductos';
 import AdminProductoNuevo from './pages/AdminProductoNuevo';
+import AdminProductoEditar from './pages/AdminProductoEditar';
 import AdminUsuarios from './pages/AdminUsuarios';
 import AdminUsuarioNuevo from './pages/AdminUsuarioNuevo';
-import AdminProductoEditar from './pages/AdminProductoEditar';
+import AdminOrdenes from './pages/AdminOrdenes';
+import AdminCategorias from './pages/AdminCategorias';
+import AdminReportes from './pages/AdminReportes';
+import AdminPerfil from './pages/AdminPerfil';
+
+// Protección y diseño del panel administrador
 import RequireAdmin from './components/RequireAdmin';
 import AdminLayout from './components/AdminLayout';
-import AdminPendiente from './pages/AdminPendiente';
 
 export default function App() {
   const { pathname } = useLocation();
-  // El panel de administración tiene su propio diseño (sin navbar ni footer de la tienda)
+
   const enAdmin = pathname.startsWith('/admin');
 
   return (
     <div className="d-flex flex-column min-vh-100">
+
       {!enAdmin && <Navbar />}
 
       <main className="flex-grow-1">
+
         <Routes>
+
           {/* Tienda */}
           <Route path="/" element={<Home />} />
           <Route path="/nosotros" element={<Nosotros />} />
@@ -66,11 +76,18 @@ export default function App() {
           <Route path="/iniciar-sesion" element={<IniciarSesion />} />
           <Route path="/registro" element={<RegistroUsuario />} />
 
-          {/* Administración (solo rol admin) */}
+          {/* Administración: acceso exclusivo para ADMIN */}
           <Route element={<RequireAdmin />}>
-            <Route element={<AdminLayout />}>
-              <Route path="/admin" element={<AdminHome />} />
 
+            <Route element={<AdminLayout />}>
+
+              {/* Dashboard */}
+              <Route
+                path="/admin"
+                element={<AdminHome />}
+              />
+
+              {/* Productos */}
               <Route
                 path="/admin/productos"
                 element={<AdminProductos />}
@@ -86,6 +103,7 @@ export default function App() {
                 element={<AdminProductoEditar />}
               />
 
+              {/* Usuarios */}
               <Route
                 path="/admin/usuarios"
                 element={<AdminUsuarios />}
@@ -95,33 +113,46 @@ export default function App() {
                 path="/admin/usuarios/nuevo"
                 element={<AdminUsuarioNuevo />}
               />
-              <Route 
-                path="/admin/usuarios/editar/:correo" 
-                element={<AdminUsuarioNuevo />} />
 
-              {/* Vistas pendientes de desarrollar */}
+              <Route
+                path="/admin/usuarios/editar/:correo"
+                element={<AdminUsuarioNuevo />}
+              />
+
+              {/* Órdenes conectadas al backend */}
               <Route
                 path="/admin/ordenes"
-                element={<AdminPendiente titulo="Órdenes / Boletas" />}
+                element={<AdminOrdenes />}
               />
+
+              {/* Categorías conectadas al backend */}
               <Route
                 path="/admin/categorias"
-                element={<AdminPendiente titulo="Categorías" />}
+                element={<AdminCategorias />}
               />
+
+              {/* Reportes conectados al backend */}
               <Route
                 path="/admin/reportes"
-                element={<AdminPendiente titulo="Reportes" />}
+                element={<AdminReportes />}
               />
+
+              {/* Perfil del administrador */}
               <Route
                 path="/admin/perfil"
-                element={<AdminPendiente titulo="Perfil" />}
+                element={<AdminPerfil />}
               />
+
             </Route>
+
           </Route>
+
         </Routes>
+
       </main>
 
       {!enAdmin && <Footer />}
+
     </div>
   );
 }

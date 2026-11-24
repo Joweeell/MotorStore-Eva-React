@@ -1,6 +1,7 @@
+
 const API_BASE_URL = (
   import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1'
-).replace(/\/$/, '');
+).replace(/\/+$/, '');
 
 const SESION_KEY = 'motorstore_sesion';
 
@@ -25,7 +26,9 @@ export async function apiRequest(endpoint, options = {}) {
 
   const headers = {
     ...(options.body ? { 'Content-Type': 'application/json' } : {}),
-    ...(sesion?.token ? { Authorization: `Bearer ${sesion.token}` } : {}),
+    ...(sesion?.token
+      ? { Authorization: `Bearer ${sesion.token}` }
+      : {}),
     ...(options.headers || {}),
   };
 
@@ -35,11 +38,16 @@ export async function apiRequest(endpoint, options = {}) {
   });
 
   if (respuesta.status === 204) {
+    if (!respuesta.ok) {
+      throw new Error(`Error HTTP ${respuesta.status}`);
+    }
     return null;
   }
 
   const texto = await respuesta.text();
+
   let data = null;
+
   try {
     data = texto ? JSON.parse(texto) : null;
   } catch {
@@ -48,8 +56,11 @@ export async function apiRequest(endpoint, options = {}) {
 
   if (!respuesta.ok) {
     const mensajeError =
-      (data && (data.message || data.error || data.mensaje)) ||
+      (data &&
+        typeof data === 'object' &&
+        (data.message || data.error || data.mensaje)) ||
       `Error HTTP ${respuesta.status}`;
+
     throw new Error(mensajeError);
   }
 
