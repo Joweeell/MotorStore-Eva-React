@@ -12,7 +12,7 @@ function separarNombreApellido(nombreCompleto) {
   };
 }
 
-function normalizarUsuarioDTO(dto) {
+export function normalizarUsuarioDTO(dto) {
   return {
     idUsuario: dto.idUsuario,
     nombre: `${dto.nombre} ${dto.apellido}`.trim(),

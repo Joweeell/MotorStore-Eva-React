@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { autenticarUsuario } from '../data/usuariosCRUD';
+import { autenticarUsuario, normalizarUsuarioDTO } from '../data/usuariosCRUD';
 import { guardarSesion } from '../services/api';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 
@@ -53,12 +53,14 @@ export default function IniciarSesion() {
   };
 
   const handleGoogleLogin = (usuario, token) => {
+    const usuarioNormalizado = normalizarUsuarioDTO(usuario);
     guardarSesion({
-      ...usuario,
+      ...usuarioNormalizado,
       token,
+      tipoToken: 'Bearer',
     });
     setMensaje('');
-    navigate('/');
+    navigate(usuarioNormalizado.rol === 'admin' ? '/admin' : '/');
   };
 
   return (

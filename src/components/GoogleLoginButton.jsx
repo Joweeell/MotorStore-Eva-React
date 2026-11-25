@@ -1,10 +1,7 @@
-
 import { useEffect, useRef, useState } from 'react';
+import { apiRequest } from '../services/api';
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-const API_URL =
-  import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function GoogleLoginButton({ onLogin, onError }) {
   const contenedorRef = useRef(null);
@@ -35,25 +32,17 @@ export default function GoogleLoginButton({ onLogin, onError }) {
       setCargando(true);
 
       try {
-        // ENVIAR TOKEN AL BACKEND
-        const solicitud = await fetch(
-          `${API_URL}/api/auth/google`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              credential: respuesta.credential
-            })
-          }
-        );
+        // ENVIAR TOKEN AL BACKEND USANDO apiRequest (sin repetir /api)
+        const datos = await apiRequest('/auth/google', {
+          method: 'POST',
+          body: JSON.stringify({
+            credential: respuesta.credential
+          })
+        });
 
-        const datos = await solicitud.json();
-
-        if (!solicitud.ok || !datos.ok) {
+        if (!datos || !datos.ok) {
           throw new Error(
-            datos.mensaje ||
+            datos?.mensaje ||
               'No se pudo iniciar sesión con Google.'
           );
         }
